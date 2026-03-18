@@ -1,6 +1,8 @@
 package com.example.finance_tracker.controller;
 
+import com.example.finance_tracker.dto.LoginDTO;
 import com.example.finance_tracker.dto.RegisterDTO;
+import com.example.finance_tracker.dto.TokenDTO;
 import com.example.finance_tracker.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +23,10 @@ public class UserController {
   public ResponseEntity<Void> register(@RequestBody @Valid RegisterDTO dto) {
     service.register(dto);
     return ResponseEntity.ok().build();
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity<TokenDTO> login(@RequestBody @Valid LoginDTO dto) {
+    return ResponseEntity.ok().body(service.login(dto));
   }
 }
