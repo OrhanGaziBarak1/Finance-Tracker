@@ -44,8 +44,28 @@ public class UserServiceImpl implements UserService {
     UserDetails userDetails = securityUserDetailsService.loadUserByUsername(user.getEmail());
 
     String token = jwtService.generateToken(userDetails);
+    String refreshToken = jwtService.generateRefreshToken(userDetails);
     TokenDTO responseDto = new TokenDTO();
     responseDto.setToken(token);
+    responseDto.setRefreshToken(refreshToken);
+    return responseDto;
+  }
+
+  @Override
+  public TokenDTO refresh(TokenDTO dto) {
+    String userEmail = jwtService.extractUsername(dto.getRefreshToken());
+    UserDetails userDetails = securityUserDetailsService.loadUserByUsername(userEmail);
+    boolean isValid = jwtService.isTokenValid(dto.getRefreshToken(), userDetails);
+
+    if(!isValid) {
+      throw new RuntimeException("Invalid token");
+    }
+
+    String token = jwtService.generateToken(userDetails);
+    String refreshToken = jwtService.generateRefreshToken(userDetails);
+    TokenDTO responseDto = new TokenDTO();
+    responseDto.setToken(token);
+    responseDto.setRefreshToken(refreshToken);
     return responseDto;
   }
 

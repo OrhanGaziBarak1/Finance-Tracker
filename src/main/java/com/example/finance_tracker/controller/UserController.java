@@ -29,4 +29,9 @@ public class UserController {
   public ResponseEntity<TokenDTO> login(@RequestBody @Valid LoginDTO dto) {
     return ResponseEntity.ok().body(service.login(dto));
   }
+
+  @PostMapping("/refresh")
+  public ResponseEntity<TokenDTO> refresh(@RequestBody @Valid TokenDTO dto) {
+    return ResponseEntity.ok().body(service.refresh(dto));
+  }
 }

@@ -7,4 +7,5 @@ import com.example.finance_tracker.dto.TokenDTO;
 public interface UserService {
   void register(RegisterDTO dto);
   TokenDTO login(LoginDTO dto);
+  TokenDTO refresh(TokenDTO dto);
 }
