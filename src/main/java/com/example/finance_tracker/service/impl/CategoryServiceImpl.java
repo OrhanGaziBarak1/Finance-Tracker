@@ -25,7 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
     Category category;
 
     if(dto.getId() != null) {
-      category = repository.findById(dto.getId())
+      category = repository.findByIdAndUserId(dto.getId(), user.getId())
           .orElseThrow(() -> new IllegalArgumentException("Category id not found"));
       category.setName(dto.getName());
     } else {
