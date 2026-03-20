@@ -11,6 +11,7 @@ import com.example.finance_tracker.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,12 +37,10 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public TokenDTO login(LoginDTO dto) {
-    authenticationManager.authenticate(
+    Authentication auth = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword())
     );
-    User user = repository.findByEmail(dto.getEmail())
-        .orElseThrow(() -> new RuntimeException("User not found!"));
-    UserDetails userDetails = securityUserDetailsService.loadUserByUsername(user.getEmail());
+    UserDetails userDetails = (UserDetails) auth.getPrincipal();
 
     String token = jwtService.generateToken(userDetails);
     String refreshToken = jwtService.generateRefreshToken(userDetails);

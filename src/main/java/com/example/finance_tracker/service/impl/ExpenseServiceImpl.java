@@ -48,22 +48,22 @@ public class ExpenseServiceImpl implements ExpenseService {
 
   @Override
   public List<ExpenseDTO> getAll(User user) {
-    List<Expense> categories = repository.findByUser(user);
-    return categories.stream().map(Expense -> mapper.map(Expense, ExpenseDTO.class)).toList();
+    List<Expense> expenses = repository.findByUser(user);
+    return expenses.stream().map(Expense -> mapper.map(Expense, ExpenseDTO.class)).toList();
   }
 
   @Override
   public ExpenseDTO getOne(Long id, User user) {
-    Expense Expense = repository.findByIdAndUserId(id, user.getId())
-        .orElseThrow(() -> new IllegalArgumentException("Expense id not found"));
-    return mapper.map(Expense, ExpenseDTO.class);
+    Expense expense = repository.findByIdAndUserId(id, user.getId())
+        .orElseThrow(() -> new IllegalArgumentException("expense id not found"));
+    return mapper.map(expense, ExpenseDTO.class);
   }
 
   @Override
   @Transactional
   public void delete(Long id, User user) {
-    Expense Expense = repository.findByIdAndUserId(id, user.getId())
-        .orElseThrow(() -> new IllegalArgumentException("Expense id not found"));
-    repository.delete(Expense);
+    Expense expense = repository.findByIdAndUserId(id, user.getId())
+        .orElseThrow(() -> new IllegalArgumentException("expense id not found"));
+    repository.delete(expense);
   }
 }
