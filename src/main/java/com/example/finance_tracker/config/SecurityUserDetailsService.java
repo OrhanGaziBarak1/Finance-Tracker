@@ -36,6 +36,10 @@ public class SecurityUserDetailsService implements UserDetailsService {
       return List.of();
     }
 
+    public User getUser() {
+      return user;
+    }
+
     @Override
     public @Nullable String getPassword() {
       return user.getPassword();
