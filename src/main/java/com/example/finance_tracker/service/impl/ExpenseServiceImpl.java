@@ -49,7 +49,7 @@ public class ExpenseServiceImpl implements ExpenseService {
   @Override
   public List<ExpenseDTO> getAll(User user) {
     List<Expense> expenses = repository.findByUser(user);
-    return expenses.stream().map(Expense -> mapper.map(Expense, ExpenseDTO.class)).toList();
+    return expenses.stream().map(expense -> mapper.map(expense, ExpenseDTO.class)).toList();
   }
 
   @Override

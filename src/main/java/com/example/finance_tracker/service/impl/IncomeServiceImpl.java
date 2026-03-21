@@ -1,9 +1,62 @@
 package com.example.finance_tracker.service.impl;
 
+import com.example.finance_tracker.dto.IncomeDTO;
+import com.example.finance_tracker.model.Income;
+import com.example.finance_tracker.model.User;
+import com.example.finance_tracker.repository.IncomeRepository;
 import com.example.finance_tracker.service.IncomeService;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class IncomeServiceImpl implements IncomeService {
 
+  private final IncomeRepository repository;
+  private final ModelMapper mapper;
+
+  @Override
+  @Transactional
+  public IncomeDTO create(IncomeDTO dto, User user) {
+    Income income;
+
+    if (dto.getId() != null) {
+      income = repository.findByIdAndUserId(dto.getId(), user.getId())
+          .orElseThrow(() -> new IllegalArgumentException("Income not found"));
+      income.setAmount(dto.getAmount());
+      income.setName(dto.getName());
+      income.setIncomeDate(dto.getIncomeDate());
+    } else {
+      income = mapper.map(dto, Income.class);
+      income.setUser(user);
+    }
+
+    repository.save(income);
+    return mapper.map(income, IncomeDTO.class);
+  }
+
+  @Override
+  public List<IncomeDTO> getAll(User user) {
+    List<Income> incomes = repository.findByUser(user);
+    return incomes.stream().map((element) -> mapper.map(element, IncomeDTO.class)).toList();
+  }
+
+  @Override
+  public IncomeDTO getOne(Long id, User user) {
+    Income income = repository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Income not found!"));
+    return mapper.map(income, IncomeDTO.class);
+  }
+
+  @Override
+  @Transactional
+  public void delete(Long id, User user) {
+    Income income = repository.findByIdAndUserId(id, user.getId())
+        .orElseThrow(() -> new IllegalArgumentException("income not found"));
+    repository.delete(income);
+  }
 }

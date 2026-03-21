@@ -7,7 +7,8 @@ import java.time.LocalDate;
 import lombok.Data;
 
 @Data
-public class ExpenseDTO {
+public class IncomeDTO {
+
   private Long id;
 
   @NotNull
@@ -15,17 +16,9 @@ public class ExpenseDTO {
   private BigDecimal amount;
 
   @NotNull
-  private String good;
-  private String description;
+  private String name;
 
   @NotNull
-  private Long categoryId;
-  private String categoryName;
+  private LocalDate incomeDate;
 
-  @NotNull
-  private Long sourceId;
-  private String sourceName;
-
-  @NotNull
-  private LocalDate expenseDate;
 }
