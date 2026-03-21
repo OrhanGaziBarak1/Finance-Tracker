@@ -3,7 +3,7 @@ package com.example.finance_tracker.service.impl;
 import com.example.finance_tracker.dto.ExpenseDTO;
 import com.example.finance_tracker.model.Expense;
 import com.example.finance_tracker.model.User;
-import com.example.finance_tracker.repository.CategoryRepository;
+import com.example.finance_tracker.repository.ExpenseCategoryRepository;
 import com.example.finance_tracker.repository.ExpenseRepository;
 import com.example.finance_tracker.repository.ExpenseSourceRepository;
 import com.example.finance_tracker.service.ExpenseService;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ExpenseServiceImpl implements ExpenseService {
   
   private final ExpenseRepository repository;
-  private final CategoryRepository categoryRepository;
+  private final ExpenseCategoryRepository expenseCategoryRepository;
   private final ExpenseSourceRepository expenseSourceRepository;
   private final ModelMapper mapper;
 
@@ -39,7 +39,7 @@ public class ExpenseServiceImpl implements ExpenseService {
       expense = mapper.map(dto, Expense.class);
       expense.setUser(user);
     }
-    expense.setCategory(categoryRepository.getReferenceById(dto.getCategoryId()));
+    expense.setCategory(expenseCategoryRepository.getReferenceById(dto.getCategoryId()));
     expense.setSource(expenseSourceRepository.getReferenceById(dto.getSourceId()));
 
     repository.save(expense);

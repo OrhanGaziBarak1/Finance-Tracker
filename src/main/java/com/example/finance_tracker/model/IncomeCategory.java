@@ -14,10 +14,10 @@ import org.hibernate.annotations.OnDeleteAction;
 @Getter
 @Setter
 @Entity
-@Table(name = "categories")
-public class Category extends BaseEntity {
+@Table(name = "income-categories")
+public class IncomeCategory extends BaseEntity{
 
-  @Column(name = "name",  nullable = false, length = 50)
+  @Column(name = "name", nullable = false, length = 50)
   private String name;
 
   @ManyToOne(fetch = FetchType.LAZY)

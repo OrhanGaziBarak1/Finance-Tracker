@@ -35,7 +35,7 @@ public class Expense extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "category_id")
   @OnDelete(action = OnDeleteAction.SET_NULL)
-  private Category category;
+  private ExpenseCategory category;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "source_id")

@@ -1,9 +1,9 @@
 package com.example.finance_tracker.service.impl;
 
 import com.example.finance_tracker.dto.CategoryDTO;
-import com.example.finance_tracker.model.Category;
+import com.example.finance_tracker.model.ExpenseCategory;
 import com.example.finance_tracker.model.User;
-import com.example.finance_tracker.repository.CategoryRepository;
+import com.example.finance_tracker.repository.ExpenseCategoryRepository;
 import com.example.finance_tracker.service.CategoryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,20 +16,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class CategoryServiceImpl implements CategoryService {
 
-  private final CategoryRepository repository;
+  private final ExpenseCategoryRepository repository;
   private final ModelMapper mapper;
 
   @Override
   @Transactional
   public CategoryDTO create(CategoryDTO dto, User user) {
-    Category category;
+    ExpenseCategory category;
 
     if(dto.getId() != null) {
       category = repository.findByIdAndUserId(dto.getId(), user.getId())
           .orElseThrow(() -> new IllegalArgumentException("Category id not found"));
       category.setName(dto.getName());
     } else {
-      category = mapper.map(dto, Category.class);
+      category = mapper.map(dto, ExpenseCategory.class);
       category.setUser(user);
     }
 
@@ -39,13 +39,13 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   public List<CategoryDTO> getAll(User user) {
-    List<Category> categories = repository.findByUser(user);
+    List<ExpenseCategory> categories = repository.findByUser(user);
     return categories.stream().map(category -> mapper.map(category, CategoryDTO.class)).toList();
   }
 
   @Override
   public CategoryDTO getOne(Long id, User user) {
-    Category category = repository.findByIdAndUserId(id, user.getId())
+    ExpenseCategory category = repository.findByIdAndUserId(id, user.getId())
         .orElseThrow(() -> new IllegalArgumentException("Category id not found"));
     return mapper.map(category, CategoryDTO.class);
   }
@@ -53,7 +53,7 @@ public class CategoryServiceImpl implements CategoryService {
   @Override
   @Transactional
   public void delete(Long id, User user) {
-    Category category = repository.findByIdAndUserId(id, user.getId())
+    ExpenseCategory category = repository.findByIdAndUserId(id, user.getId())
         .orElseThrow(() -> new IllegalArgumentException("Category id not found"));
     repository.delete(category);
   }
