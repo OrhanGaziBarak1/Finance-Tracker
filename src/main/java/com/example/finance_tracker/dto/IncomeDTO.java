@@ -19,6 +19,9 @@ public class IncomeDTO {
   private String name;
 
   @NotNull
+  private Long incomeCategoryId;
+
+  @NotNull
   private LocalDate incomeDate;
 
 }

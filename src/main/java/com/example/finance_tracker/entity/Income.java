@@ -30,4 +30,8 @@ public class Income extends BaseEntity {
   @JoinColumn(name = "user_id")
   private User user;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "category_id")
+  private IncomeCategory incomeCategory;
+
 }

@@ -3,6 +3,7 @@ package com.example.finance_tracker.service.impl;
 import com.example.finance_tracker.dto.IncomeDTO;
 import com.example.finance_tracker.entity.Income;
 import com.example.finance_tracker.entity.User;
+import com.example.finance_tracker.repository.IncomeCategoryRepository;
 import com.example.finance_tracker.repository.IncomeRepository;
 import com.example.finance_tracker.service.IncomeService;
 import java.util.List;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class IncomeServiceImpl implements IncomeService {
 
   private final IncomeRepository repository;
+  private final IncomeCategoryRepository incomeCategoryRepository;
   private final ModelMapper mapper;
 
   @Override
@@ -34,6 +36,8 @@ public class IncomeServiceImpl implements IncomeService {
       income = mapper.map(dto, Income.class);
       income.setUser(user);
     }
+
+    income.setIncomeCategory(incomeCategoryRepository.getReferenceById(dto.getIncomeCategoryId()));
 
     repository.save(income);
     return mapper.map(income, IncomeDTO.class);
