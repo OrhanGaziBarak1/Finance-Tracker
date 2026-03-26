@@ -1,6 +1,6 @@
 package com.example.finance_tracker.config;
 
-import com.example.finance_tracker.model.User;
+import com.example.finance_tracker.entity.User;
 import com.example.finance_tracker.repository.UserRepository;
 import java.util.Collection;
 import java.util.List;

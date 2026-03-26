@@ -1,6 +1,6 @@
 ALTER TABLE categories RENAME TO expense_categories;
 
-CREATE TABLE categories (
+CREATE TABLE income_categories (
     id          BIGSERIAL PRIMARY KEY,
     created_at  TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at  TIMESTAMP NOT NULL DEFAULT NOW(),

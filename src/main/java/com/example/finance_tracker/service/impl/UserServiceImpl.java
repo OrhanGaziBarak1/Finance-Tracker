@@ -5,7 +5,7 @@ import com.example.finance_tracker.config.SecurityUserDetailsService;
 import com.example.finance_tracker.dto.LoginDTO;
 import com.example.finance_tracker.dto.RegisterDTO;
 import com.example.finance_tracker.dto.TokenDTO;
-import com.example.finance_tracker.model.User;
+import com.example.finance_tracker.entity.User;
 import com.example.finance_tracker.repository.UserRepository;
 import com.example.finance_tracker.service.UserService;
 import lombok.RequiredArgsConstructor;

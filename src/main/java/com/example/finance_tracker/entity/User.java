@@ -1,4 +1,4 @@
-package com.example.finance_tracker.model;
+package com.example.finance_tracker.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

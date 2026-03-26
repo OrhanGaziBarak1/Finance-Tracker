@@ -1,8 +1,7 @@
-package com.example.finance_tracker.model;
+package com.example.finance_tracker.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -14,13 +13,13 @@ import org.hibernate.annotations.OnDeleteAction;
 @Getter
 @Setter
 @Entity
-@Table(name = "expense-categories")
-public class ExpenseCategory extends BaseEntity {
+@Table(name = "sources")
+public class ExpenseSource extends BaseEntity {
 
-  @Column(name = "name",  nullable = false, length = 50)
+  @Column(name = "name", nullable = false, length = 50)
   private String name;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne
   @JoinColumn(name = "user_id")
   @OnDelete(action = OnDeleteAction.CASCADE)
   private User user;

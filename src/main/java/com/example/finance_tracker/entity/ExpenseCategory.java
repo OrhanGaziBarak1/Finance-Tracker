@@ -1,4 +1,4 @@
-package com.example.finance_tracker.model;
+package com.example.finance_tracker.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,10 +14,10 @@ import org.hibernate.annotations.OnDeleteAction;
 @Getter
 @Setter
 @Entity
-@Table(name = "income-categories")
-public class IncomeCategory extends BaseEntity{
+@Table(name = "expense_categories")
+public class ExpenseCategory extends BaseEntity {
 
-  @Column(name = "name", nullable = false, length = 50)
+  @Column(name = "name",  nullable = false, length = 50)
   private String name;
 
   @ManyToOne(fetch = FetchType.LAZY)

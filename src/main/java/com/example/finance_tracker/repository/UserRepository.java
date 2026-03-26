@@ -1,9 +1,8 @@
 package com.example.finance_tracker.repository;
 
-import com.example.finance_tracker.model.User;
+import com.example.finance_tracker.entity.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository

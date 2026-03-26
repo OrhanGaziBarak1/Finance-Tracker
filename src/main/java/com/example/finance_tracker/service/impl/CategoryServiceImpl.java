@@ -1,8 +1,8 @@
 package com.example.finance_tracker.service.impl;
 
 import com.example.finance_tracker.dto.CategoryDTO;
-import com.example.finance_tracker.model.ExpenseCategory;
-import com.example.finance_tracker.model.User;
+import com.example.finance_tracker.entity.ExpenseCategory;
+import com.example.finance_tracker.entity.User;
 import com.example.finance_tracker.repository.ExpenseCategoryRepository;
 import com.example.finance_tracker.service.CategoryService;
 import java.util.List;
