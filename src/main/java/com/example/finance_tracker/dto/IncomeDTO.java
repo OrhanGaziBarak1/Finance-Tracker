@@ -1,6 +1,7 @@
 package com.example.finance_tracker.dto;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,17 +12,17 @@ public class IncomeDTO {
 
   private Long id;
 
-  @NotNull
-  @Min(1)
+  @NotNull(message = "{validation.field.notBlank}")
+  @Min(value = 1, message = "{validation.field.positive}")
   private BigDecimal amount;
 
-  @NotNull
+  @NotBlank(message = "{validation.field.notBlank}")
   private String name;
 
-  @NotNull
+  @NotNull(message = "{validation.field.notBlank}")
   private Long incomeCategoryId;
 
-  @NotNull
+  @NotNull(message = "{validation.field.notBlank}")
   private LocalDate incomeDate;
 
 }

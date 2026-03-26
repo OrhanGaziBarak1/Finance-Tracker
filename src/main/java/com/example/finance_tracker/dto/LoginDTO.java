@@ -1,13 +1,13 @@
 package com.example.finance_tracker.dto;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class LoginDTO {
-  @NotNull
+  @NotBlank(message = "{validation.field.notBlank}")
   private String email;
 
-  @NotNull
+  @NotBlank(message = "{validation.field.notBlank}")
   private String password;
 }

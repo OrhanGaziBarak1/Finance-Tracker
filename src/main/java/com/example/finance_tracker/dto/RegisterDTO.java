@@ -1,7 +1,8 @@
 package com.example.finance_tracker.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,13 +12,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterDTO {
 
-  @NotNull
+  @NotBlank(message = "{validation.field.notBlank}")
   private String fullName;
 
-  @NotNull
-  @Email
+  @NotBlank(message = "{validation.field.notBlank}")
+  @Email(message = "{validation.field.email}")
   private String email;
 
-  @NotNull
+  @NotBlank(message = "{validation.field.notBlank}")
+  @Size(min = 6, max = 16, message = "{validation.register.password.size}")
   private String password;
 }

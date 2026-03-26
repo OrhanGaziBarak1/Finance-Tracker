@@ -1,12 +1,12 @@
 package com.example.finance_tracker.dto;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class CategoryDTO {
   private Long id;
 
-  @NotNull
+  @NotBlank(message = "{validation.field.notBlank}")
   private String name;
 }
