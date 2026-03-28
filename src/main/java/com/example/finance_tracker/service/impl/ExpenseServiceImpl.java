@@ -3,6 +3,7 @@ package com.example.finance_tracker.service.impl;
 import com.example.finance_tracker.dto.ExpenseDTO;
 import com.example.finance_tracker.entity.Expense;
 import com.example.finance_tracker.entity.User;
+import com.example.finance_tracker.exception.NotFoundException;
 import com.example.finance_tracker.repository.ExpenseCategoryRepository;
 import com.example.finance_tracker.repository.ExpenseRepository;
 import com.example.finance_tracker.repository.ExpenseSourceRepository;
@@ -30,7 +31,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     if(dto.getId() != null) {
       expense = repository.findByIdAndUserId(dto.getId(), user.getId())
-          .orElseThrow(() -> new IllegalArgumentException("expense id not found"));
+          .orElseThrow(() -> new NotFoundException("Expense with id " + dto.getId() + " not found"));
       expense.setAmount(dto.getAmount());
       expense.setGood(dto.getGood());
       expense.setDescription(dto.getDescription());
@@ -55,7 +56,7 @@ public class ExpenseServiceImpl implements ExpenseService {
   @Override
   public ExpenseDTO getOne(Long id, User user) {
     Expense expense = repository.findByIdAndUserId(id, user.getId())
-        .orElseThrow(() -> new IllegalArgumentException("expense id not found"));
+        .orElseThrow(() -> new NotFoundException("Expense with id " + id + " not found"));
     return mapper.map(expense, ExpenseDTO.class);
   }
 
@@ -63,7 +64,7 @@ public class ExpenseServiceImpl implements ExpenseService {
   @Transactional
   public void delete(Long id, User user) {
     Expense expense = repository.findByIdAndUserId(id, user.getId())
-        .orElseThrow(() -> new IllegalArgumentException("expense id not found"));
+        .orElseThrow(() -> new NotFoundException("Expense with id " + id + " not found"));
     repository.delete(expense);
   }
 }

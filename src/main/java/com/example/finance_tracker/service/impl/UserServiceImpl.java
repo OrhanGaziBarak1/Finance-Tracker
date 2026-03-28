@@ -6,12 +6,14 @@ import com.example.finance_tracker.dto.LoginDTO;
 import com.example.finance_tracker.dto.RegisterDTO;
 import com.example.finance_tracker.dto.TokenDTO;
 import com.example.finance_tracker.entity.User;
+import com.example.finance_tracker.exception.AuthorizationException;
 import com.example.finance_tracker.repository.UserRepository;
 import com.example.finance_tracker.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,11 +39,15 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public TokenDTO login(LoginDTO dto) {
-    Authentication auth = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword())
-    );
+    Authentication auth;
+    try {
+      auth = authenticationManager.authenticate(
+          new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword())
+      );
+    } catch (AuthenticationException ex) {
+      throw new AuthorizationException(ex.getMessage());
+    }
     UserDetails userDetails = (UserDetails) auth.getPrincipal();
-
     String token = jwtService.generateToken(userDetails);
     String refreshToken = jwtService.generateRefreshToken(userDetails);
     TokenDTO responseDto = new TokenDTO();
@@ -57,7 +63,7 @@ public class UserServiceImpl implements UserService {
     boolean isValid = jwtService.isTokenValid(dto.getRefreshToken(), userDetails);
 
     if(!isValid) {
-      throw new RuntimeException("Invalid token");
+      throw new AuthorizationException("Invalid token. Please re-login.");
     }
 
     String token = jwtService.generateToken(userDetails);

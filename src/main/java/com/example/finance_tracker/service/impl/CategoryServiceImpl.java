@@ -3,6 +3,7 @@ package com.example.finance_tracker.service.impl;
 import com.example.finance_tracker.dto.CategoryDTO;
 import com.example.finance_tracker.entity.ExpenseCategory;
 import com.example.finance_tracker.entity.User;
+import com.example.finance_tracker.exception.NotFoundException;
 import com.example.finance_tracker.repository.ExpenseCategoryRepository;
 import com.example.finance_tracker.service.CategoryService;
 import java.util.List;
@@ -26,7 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     if(dto.getId() != null) {
       category = repository.findByIdAndUserId(dto.getId(), user.getId())
-          .orElseThrow(() -> new IllegalArgumentException("Category id not found"));
+          .orElseThrow(() -> new NotFoundException("Expense category with id " + dto.getId() + " not found"));
       category.setName(dto.getName());
     } else {
       category = mapper.map(dto, ExpenseCategory.class);
@@ -46,7 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
   @Override
   public CategoryDTO getOne(Long id, User user) {
     ExpenseCategory category = repository.findByIdAndUserId(id, user.getId())
-        .orElseThrow(() -> new IllegalArgumentException("Category id not found"));
+        .orElseThrow(() -> new NotFoundException("Expense category with id " + id + " not found"));
     return mapper.map(category, CategoryDTO.class);
   }
 
@@ -54,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
   @Transactional
   public void delete(Long id, User user) {
     ExpenseCategory category = repository.findByIdAndUserId(id, user.getId())
-        .orElseThrow(() -> new IllegalArgumentException("Category id not found"));
+        .orElseThrow(() -> new NotFoundException("Expense category with id " + id + " not found"));
     repository.delete(category);
   }
 }

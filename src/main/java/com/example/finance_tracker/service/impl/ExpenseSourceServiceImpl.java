@@ -3,6 +3,7 @@ package com.example.finance_tracker.service.impl;
 import com.example.finance_tracker.dto.ExpenseSourceDTO;
 import com.example.finance_tracker.entity.ExpenseSource;
 import com.example.finance_tracker.entity.User;
+import com.example.finance_tracker.exception.NotFoundException;
 import com.example.finance_tracker.repository.ExpenseSourceRepository;
 import com.example.finance_tracker.service.ExpenseSourceService;
 import java.util.List;
@@ -26,7 +27,7 @@ public class ExpenseSourceServiceImpl implements ExpenseSourceService {
 
     if(dto.getId() != null) {
       source = repository.findByIdAndUserId(dto.getId(), user.getId())
-          .orElseThrow(() -> new IllegalArgumentException("Expense Source can not found!"));
+          .orElseThrow(() -> new NotFoundException("Expense source with id " + dto.getId() + " not found"));
       source.setName(dto.getName());
     } else {
       source = mapper.map(dto, ExpenseSource.class);
@@ -46,7 +47,7 @@ public class ExpenseSourceServiceImpl implements ExpenseSourceService {
   @Override
   public ExpenseSourceDTO getOne(Long id, User user) {
     ExpenseSource source = repository.findByIdAndUserId(id, user.getId())
-        .orElseThrow(() -> new IllegalArgumentException("Expense Source can not found!"));
+        .orElseThrow(() -> new NotFoundException("Expense source with id " + id + " not found"));
     return mapper.map(source,  ExpenseSourceDTO.class);
   }
 
@@ -54,7 +55,7 @@ public class ExpenseSourceServiceImpl implements ExpenseSourceService {
   @Transactional
   public void delete(Long id, User user) {
     ExpenseSource source = repository.findByIdAndUserId(id, user.getId())
-        .orElseThrow(() -> new IllegalArgumentException("Expense Source can not found!"));
+        .orElseThrow(() -> new NotFoundException("Expense source with id " + id + " not found"));
     repository.delete(source);
   }
 }

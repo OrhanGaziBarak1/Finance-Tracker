@@ -3,6 +3,7 @@ package com.example.finance_tracker.service.impl;
 import com.example.finance_tracker.dto.CategoryDTO;
 import com.example.finance_tracker.entity.IncomeCategory;
 import com.example.finance_tracker.entity.User;
+import com.example.finance_tracker.exception.NotFoundException;
 import com.example.finance_tracker.repository.IncomeCategoryRepository;
 import com.example.finance_tracker.service.IncomeCategoryService;
 import java.util.List;
@@ -26,7 +27,7 @@ public class IncomeCategoryServiceImpl implements IncomeCategoryService {
 
     if(dto.getId() != null) {
       incomeCategory = repository.findByIdAndUserId(dto.getId(), user.getId())
-          .orElseThrow(() -> new IllegalArgumentException("Income category not found!"));
+          .orElseThrow(() -> new NotFoundException("Income category with id " + dto.getId() + " not found"));
       incomeCategory.setName(dto.getName());
     } else {
       incomeCategory = mapper.map(dto, IncomeCategory.class);
@@ -46,7 +47,7 @@ public class IncomeCategoryServiceImpl implements IncomeCategoryService {
   @Override
   public CategoryDTO getOne(Long id, User user) {
     IncomeCategory incomeCategory = repository.findByIdAndUserId(id, user.getId())
-        .orElseThrow(() -> new IllegalArgumentException("Income category not found!"));
+        .orElseThrow(() -> new NotFoundException("Income category with id " + id + " not found"));
     return mapper.map(incomeCategory, CategoryDTO.class);
   }
 
@@ -54,7 +55,7 @@ public class IncomeCategoryServiceImpl implements IncomeCategoryService {
   @Transactional
   public void delete(Long id, User user) {
     IncomeCategory incomeCategory = repository.findByIdAndUserId(id, user.getId())
-        .orElseThrow(() -> new IllegalArgumentException("Income category not found!"));
+        .orElseThrow(() -> new NotFoundException("Income category with id " + id + " not found"));
     repository.delete(incomeCategory);
   }
 }
