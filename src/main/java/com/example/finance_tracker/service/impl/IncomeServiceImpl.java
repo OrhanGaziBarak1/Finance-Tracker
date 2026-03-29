@@ -54,7 +54,7 @@ public class IncomeServiceImpl implements IncomeService {
 
   @Override
   public IncomeDTO getOne(Long id, User user) {
-    Income income = repository.findById(id)
+    Income income = repository.findByIdAndUserId(id, user.getId())
         .orElseThrow(() -> new NotFoundException("error.business.notFoundWithId", id,
             Income.class.getSimpleName()));
     return mapper.map(income, IncomeDTO.class);

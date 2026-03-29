@@ -27,6 +27,6 @@ public class ExpenseDTO {
   private Long sourceId;
   private String sourceName;
 
-  @NotNull(message = "validation.fled.notBlank")
+  @NotNull(message = "{validation.field.notBlank}")
   private LocalDate expenseDate;
 }
