@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 public class NotFoundException extends BaseAppException {
 
-  public NotFoundException(String message) {
-    super(message, HttpStatus.NOT_FOUND);
+  public NotFoundException(String messageKey, Object... args) {
+    super(messageKey, HttpStatus.NOT_FOUND, args);
   }
 }

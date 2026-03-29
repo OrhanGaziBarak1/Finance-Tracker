@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 public class AuthorizationException extends BaseAppException {
 
-  public AuthorizationException(String message) {
-    super(message, HttpStatus.UNAUTHORIZED);
+  public AuthorizationException(String messageKey, Object... args) {
+    super(messageKey, HttpStatus.UNAUTHORIZED, args);
   }
 }

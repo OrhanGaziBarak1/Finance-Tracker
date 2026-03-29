@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
           new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword())
       );
     } catch (AuthenticationException ex) {
-      throw new AuthorizationException(ex.getMessage());
+      throw new AuthorizationException("error.business.authorization");
     }
     UserDetails userDetails = (UserDetails) auth.getPrincipal();
     String token = jwtService.generateToken(userDetails);
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
     boolean isValid = jwtService.isTokenValid(dto.getRefreshToken(), userDetails);
 
     if(!isValid) {
-      throw new AuthorizationException("Invalid token. Please re-login.");
+      throw new AuthorizationException("error.business.authorization");
     }
 
     String token = jwtService.generateToken(userDetails);

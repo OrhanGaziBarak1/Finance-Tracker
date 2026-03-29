@@ -2,6 +2,7 @@ package com.example.finance_tracker.service.impl;
 
 import com.example.finance_tracker.dto.IncomeDTO;
 import com.example.finance_tracker.entity.Income;
+import com.example.finance_tracker.entity.IncomeCategory;
 import com.example.finance_tracker.entity.User;
 import com.example.finance_tracker.exception.NotFoundException;
 import com.example.finance_tracker.repository.IncomeCategoryRepository;
@@ -29,7 +30,8 @@ public class IncomeServiceImpl implements IncomeService {
 
     if (dto.getId() != null) {
       income = repository.findByIdAndUserId(dto.getId(), user.getId())
-          .orElseThrow(() -> new NotFoundException("Income with id " + dto.getId() + " not found"));
+          .orElseThrow(() -> new NotFoundException("error.business.notFoundWithId", dto.getId(),
+              Income.class.getSimpleName()));
       income.setAmount(dto.getAmount());
       income.setName(dto.getName());
       income.setIncomeDate(dto.getIncomeDate());
@@ -53,7 +55,8 @@ public class IncomeServiceImpl implements IncomeService {
   @Override
   public IncomeDTO getOne(Long id, User user) {
     Income income = repository.findById(id)
-        .orElseThrow(() -> new NotFoundException("Income with id " + id + " not found"));
+        .orElseThrow(() -> new NotFoundException("error.business.notFoundWithId", id,
+            Income.class.getSimpleName()));
     return mapper.map(income, IncomeDTO.class);
   }
 
@@ -61,7 +64,8 @@ public class IncomeServiceImpl implements IncomeService {
   @Transactional
   public void delete(Long id, User user) {
     Income income = repository.findByIdAndUserId(id, user.getId())
-        .orElseThrow(() -> new NotFoundException("Income with id " + id + " not found"));
+        .orElseThrow(() -> new NotFoundException("error.business.notFoundWithId", id,
+            Income.class.getSimpleName()));
     repository.delete(income);
   }
 }
